@@ -5,7 +5,7 @@ from PyQt6 import QtWidgets
 import sys
 import os
 from PyQt6.uic import loadUiType
-import cv2 as cv
+# import cv2 as cv
 import os
 
 ui, _ = loadUiType('homepage.ui')
@@ -21,6 +21,7 @@ class MainApp(QWidget, ui):
         self.pushButton_4.clicked.connect(self.open_gallery_tab)
         self.pushButton_3.clicked.connect(self.open_report_tab)
         self.pushButton_2.clicked.connect(self.open_exit_tab)
+        self.pushButton_8.clicked.connect(self.open_file_explorer)
 
     def open_camera_tab(self):
         print("Camera Tab")
@@ -37,6 +38,11 @@ class MainApp(QWidget, ui):
     def open_exit_tab(self):
         print("Exit Tab")
         self.tabWidget.setCurrentIndex(3)
+
+    def open_file_explorer(self):
+        print("upload button clicked")
+        home_directory = os.path.expanduser("~")
+        os.startfile(home_directory)
 
 
 app = QApplication(sys.argv)
