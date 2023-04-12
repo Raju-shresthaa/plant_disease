@@ -42,9 +42,6 @@ class MainApp(QWidget, ui):
             else:
                 print("not working")
 
-
-
-
             cap.release()
             cv.destroyAllWindows()
 
