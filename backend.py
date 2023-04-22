@@ -4,13 +4,14 @@ import matplotlib.pyplot as plt
 # from IPython.display import HTML
 from keras.preprocessing.image import ImageDataGenerator
 
-BATCH_SIZE = 32  # standard batch size
+BATCH_SIZE = 1  # standard batch size
 IMAGE_SIZE = 256
 CHANNELS = 3
-EPOCHS = 10
+EPOCHS = 1
 
 dataset = tf.keras.preprocessing.image_dataset_from_directory(
-    "PlantVillage",
+    "Potato",
+
     seed=123,
     shuffle=True,
     image_size=(256, 256),
@@ -30,8 +31,8 @@ for image_batch, labels_batch in dataset.take(1):
         plt.title(class_names[labels_batch[i]])
         plt.axis("off")
 train_size = 0.8
-train_ds = dataset.take(54)
-test_ds = dataset.skip(54)
+train_ds = dataset.take(25)
+test_ds = dataset.skip(25)
 val_size = 0.1
 len(dataset) * val_size
 val_ds = test_ds.take(6)
@@ -100,28 +101,31 @@ model = models.Sequential([
 ])
 
 model.build(input_shape=input_shape)
-
+#
 model.summary()
-
+print("before error")
+#
 model.compile(
     optimizer='adam',
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
     metrics=['accuracy']
 )
-
+#
 history = model.fit(
     train_ds,
     batch_size=BATCH_SIZE,
     validation_data=val_ds,
     verbose=1,
-    epochs=10,
+    epochs=1,
 )
-
-# sc = model.evaluate(test_ds)
-
-# run prediction
+#
+scores = model.evaluate(test_ds)
+print(scores)
+#
+# # run prediction
 import numpy as np
 
+#
 for images_batch, labels_batch in test_ds.take(1):
     first_image = images_batch[0].numpy().astype('uint8')
     first_label = labels_batch[0].numpy()
@@ -145,6 +149,8 @@ def predict(model, img):
     return predicted_class, confidence
 
 
+#
+#
 plt.figure(figsize=(15, 15))
 for images, labels in test_ds.take(1):
     for i in range(12):
@@ -158,24 +164,24 @@ for images, labels in test_ds.take(1):
 
         plt.axis("off")
 
-history
+# history
 history.params
 history.history.keys()
 type(history.history['loss'])
 history.history['loss'][:5]  # show loss for first 5 epochs
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
-
+#
 loss = history.history['loss']
 val_loss = history.history['val_loss']
-
+#
 plt.figure(figsize=(8, 8))
 plt.subplot(1, 2, 1)
 plt.plot(range(EPOCHS), acc, label='Training Accuracy')
 plt.plot(range(EPOCHS), val_acc, label='Validation Accuracy')
 plt.legend(loc='lower right')
 plt.title('Training and Validation Accuracy')
-
+#
 plt.subplot(1, 2, 2)
 plt.plot(range(EPOCHS), loss, label='Training Loss')
 plt.plot(range(EPOCHS), val_loss, label='Validation Loss')
