@@ -1,7 +1,6 @@
 import tensorflow as tf
 from tensorflow.keras import models, layers
 import matplotlib.pyplot as plt
-# from IPython.display import HTML
 from keras.preprocessing.image import ImageDataGenerator
 
 BATCH_SIZE = 1  # standard batch size
@@ -121,13 +120,16 @@ history = model.fit(
 #
 scores = model.evaluate(test_ds)
 print(scores)
+
+
+#prediction model
 #
 # # run prediction
 import numpy as np
 
 #
 for images_batch, labels_batch in test_ds.take(1):
-    first_image = images_batch[0].numpy().astype('uint8')
+    first_image = images_batch[1].numpy().astype('uint8')
     first_label = labels_batch[0].numpy()
 
     print("first image to predict")

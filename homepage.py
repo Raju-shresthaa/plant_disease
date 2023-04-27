@@ -15,10 +15,10 @@ from keras.preprocessing.image import ImageDataGenerator
 
 ui, _ = loadUiType('homepage.ui')
 
-BATCH_SIZE = 32  # standard batch size
+BATCH_SIZE = 1  # standard batch size
 IMAGE_SIZE = 256
 CHANNELS = 3
-EPOCHS = 10
+EPOCHS = 1
 class MainApp(QWidget, ui):
     def __init__(self):
         print("MainApp: init")
